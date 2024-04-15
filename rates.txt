@@ -1,0 +1,6 @@
+Cash 0.01
+Checking 0.02
+Savings 0.25
+CDs 5.12
+
+Interest is calculated daily based on the average daily account balance and is calculated as rate/360 * end-of-day-balance
