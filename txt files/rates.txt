@@ -1,0 +1,4 @@
+Cash 0.01
+Checking 0.02
+Savings 0.25
+CDs 5.12
