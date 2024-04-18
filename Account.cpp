@@ -19,7 +19,7 @@ using namespace std;
 Name: Mohammad El-Chami
 Creation Date: 4/10/2024
 Modification Date: 4/10/2024 - 4/18/2024
-Purpose: Converts an integer number into its English words representation.
+Purpose: Converts an integer number into its English words representation. (EXTRA CREDIT)
 *********************************************/
 string numberToWords(int num) {
     if (num == 0) return "zero";
@@ -58,7 +58,7 @@ string numberToWords(int num) {
 Name: Mohammad El-Chami
 Creation Date: 4/10/2024
 Modification Date: 4/10/2024 - 4/18/2024
-Purpose: Converts a monetary amount into a string describing the amount in English words for dollars and cents.
+Purpose: Converts a monetary amount into a string describing the amount in English words for dollars and cents. (EXTRA CREDIT)
 *********************************************/
 string amountToWords(double amount) {
     int dollars = (int)amount;

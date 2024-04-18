@@ -22,8 +22,11 @@ struct AccountDetail {
 };
 
 class Account {
-public:
+
+private:
     map<string, AccountDetail> accounts;  // storage of accounts by ID
+
+public:
 
     void loadBalances();
     void loadRates();
