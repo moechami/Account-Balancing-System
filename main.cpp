@@ -1,57 +1,58 @@
 // main.cpp
+#include "Account.h"
 #include <iostream>
-#include <string>
-#include "myHeader.h"
+
 using namespace std;
 
 int main() {
-    // Gets the rates and balances from given txt files
-    vector<AccountRate> rates = readRates("rates.txt");
-    vector<AccountBalance> balances = readBalances("balances.txt");
+    Account accountManager;
+    accountManager.loadBalances();
+    accountManager.loadRates();
 
-    // Initialize accounts from loaded balances
-    vector<Account> accounts;
-    for (const auto& balance : balances) {
-        // This finds the rate for each account type
-        auto it = find_if(rates.begin(), rates.end(), [&](const AccountRate& rate) {
-            return rate.accountType == balance.accountType;
-        });
-        double rate = (it != rates.end()) ? it->interestRate : 0; // Use 0 if no rate found
-        accounts.push_back(Account(balance.accountType, balance.accountID, balance.accountBalance, rate));
-    }
-
-    bool running = true;
-    while (running) {
-        int choice = displayMenu();
+    int choice;
+    do {
+        cout << "------------------------ Menu --------------------------\n";
+        cout << "1. Deposit money\n";
+        cout << "2. Withdraw money\n";
+        cout << "3. Check balances\n";
+        cout << "4. Review\n";
+        cout << "5. Save\n";
+        cout << "6. Correct ID\n";
+        cout << "7. Quit\n";
+        cout << "--------------------------------------------------------\n";
+        cout << "Please Enter Your Choice (1-7): ";
+        cin >> choice;
 
         switch (choice) {
-            case 1: // Deposit
-                doDeposit(accounts, rates);
+            case 1:
+                accountManager.depositMoney();
                 break;
-            case 2: // Withdraw
-                doWithdrawal(accounts);
+            case 2:
+                accountManager.withdrawMoney();
                 break;
-            case 3: // Check Balances
-                doCheckBalances(accounts);
+            case 3:
+                accountManager.checkBalances();
                 break;
-            case 4: // Review Transactions
-                doReview(accounts);
+            case 4:
+                accountManager.reviewTransactions();
                 break;
-            case 5: // Save
-                doSave(accounts, "balances.txt");
+            case 5:
+                cout << "Enter the day of the month: ";
+                int day;
+                cin >> day;
+                accountManager.calculateInterest(day);
+                accountManager.saveBalances();
                 break;
-            case 6: // Correct ID
-                doCorrectID(accounts);
+            case 6:
+                accountManager.correctID();
                 break;
-            case 7: // Quit
-                cout << "Thank you for using my easy to use banking system. Goodbye!" << endl;
-                running = false; // Exit so theres no infinite loop
+            case 7:
+                cout << "Thank you for using the system. Goodbye!\n";
                 break;
             default:
-                cout << "Invalid selection. Please try again." << endl;
-                break;
+                cout << "Invalid choice, please try again.\n";
         }
-    }
+    } while (choice != 7);
 
     return 0;
 }
