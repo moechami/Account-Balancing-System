@@ -1,4 +1,10 @@
-// Account.cpp - Implementation of the Account class
+// Account.cpp - all the implementation for my class functions
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: This fully implements the Account class and provides detailed definitions for handling monetary transactions, account management, and interaction with stored data.
+*********************************************/
 #include "Account.h"
 #include <iostream>
 #include <fstream>
@@ -8,6 +14,13 @@
 
 using namespace std;
 
+
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Converts an integer number into its English words representation.
+*********************************************/
 string numberToWords(int num) {
     if (num == 0) return "zero";
 
@@ -41,6 +54,12 @@ string numberToWords(int num) {
     return words;
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Converts a monetary amount into a string describing the amount in English words for dollars and cents.
+*********************************************/
 string amountToWords(double amount) {
     int dollars = (int)amount;
     int cents = round((amount - dollars) * 100);
@@ -51,6 +70,12 @@ string amountToWords(double amount) {
     return result;
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Loads account balances from 'balances.txt', initializing account details in the system.
+*********************************************/
 void Account::loadBalances() {
     ifstream file("balances.txt");
     string line;
@@ -58,15 +83,21 @@ void Account::loadBalances() {
         istringstream iss(line);
         string type, id;
         double balance;
-        if (!(iss >> type >> id >> balance)) { // Ensuring the correct order and types are read
+        if (!(iss >> type >> id >> balance)) { //  proper order and types are read
             cerr << "Failed to parse line: " << line << endl;
-            continue;  // Skip to the next line on error
+            continue;  // Skip to the next line after getting an error
         }
-        accounts[id] = {type, balance, 0.0, {}};  // Correct initialization of the struct
+        accounts[id] = {type, balance, 0.0, {}};
     }
     file.close();
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Reads and assigns interest rates from 'rates.txt' to the respective accounts based on their type.
+*********************************************/
 void Account::loadRates() {
     ifstream file("rates.txt");
     string line;
@@ -76,7 +107,7 @@ void Account::loadRates() {
         double rate;
         if (!(iss >> type >> rate)) {
             cerr << "Failed to parse line: " << line << endl;
-            continue;  // Skip to the next line on error
+            continue;  // Skip to the next line after getting an error
         }
         for (auto& account : accounts) {
             if (account.second.type == type) {
@@ -87,6 +118,12 @@ void Account::loadRates() {
     file.close();
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Writes the current account types, IDs, and balances back to 'balances.txt'.
+*********************************************/
 void Account::saveBalances() {
     ofstream file("balances.txt");
     for (const auto& account : accounts) {
@@ -95,6 +132,12 @@ void Account::saveBalances() {
     file.close();
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Outputs the account type, ID, current balance, and interest rate for each account to the console.
+*********************************************/
 void Account::displayAccounts() {
     cout << "Account Type, ID, Current Balance, Interest Rate\n";
     for (const auto& account : accounts) {
@@ -103,6 +146,12 @@ void Account::displayAccounts() {
     }
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Allows users to deposit money into either new or existing accounts, updating balances accordingly.
+*********************************************/
 void Account::depositMoney() {
     cout << "Current accounts and balances:\n";
     displayAccounts();
@@ -128,7 +177,7 @@ void Account::depositMoney() {
         cin >> rate;
 
         // Create and initialize the new account correctly
-        AccountDetail newAccount = {type, amount, rate, {}};  // Initialize with empty dailyBalances
+        AccountDetail newAccount = {type, amount, rate, {}};
         accounts[id] = newAccount;
         accounts[id].dailyBalances[day] = amount;
     } else {
@@ -147,6 +196,12 @@ void Account::depositMoney() {
     }
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Processes withdrawals from specified accounts with options for cash or check, displaying the check amount in words if applicable.
+*********************************************/
 void Account::withdrawMoney() {
     cout << "Current accounts and balances:\n";
     displayAccounts();
@@ -182,11 +237,22 @@ void Account::withdrawMoney() {
     }
 }
 
-
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Displays the current status of all accounts
+*********************************************/
 void Account::checkBalances() {
     displayAccounts();
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Function to review transactions for all accounts and their daily balances.
+*********************************************/
 void Account::reviewTransactions() {
     cout << "Review of transactions:\n";
     for (const auto& account : accounts) {
@@ -197,6 +263,12 @@ void Account::reviewTransactions() {
     }
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Calculate interest for each account based on the average daily balance
+*********************************************/
 void Account::calculateInterest(int day) {
     for (auto& account : accounts) {
         double totalBalance = 0;
@@ -209,6 +281,12 @@ void Account::calculateInterest(int day) {
     }
 }
 
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: Corrects the ID of an account.
+*********************************************/
 void Account::correctID() {
     string oldId, newId;
     cout << "Enter current ID to correct: ";

@@ -1,4 +1,10 @@
 // main.cpp
+/*********************************************
+Name: Mohammad El-Chami
+Creation Date: 4/10/2024
+Modification Date: 4/10/2024 - 4/18/2024
+Purpose: This is the startign point for the Account Management System. This program handles user interactions through a menu-driven interface to manage monetary accounts.
+*********************************************/
 #include "Account.h"
 #include <iostream>
 
